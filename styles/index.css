@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#__next {
+  height: 100vh;
+}
+
+.button {
+  @apply flex shadow font-bold rounded p-2 h-10 items-center px-4;
+}

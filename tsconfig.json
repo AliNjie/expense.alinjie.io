@@ -19,7 +19,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/_document.js",
-    "pages/_app.js"
+    "pages/_app.js",
+    "tailwind.config.jss"
   ],
   "exclude": ["node_modules"]
 }
