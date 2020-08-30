@@ -1,33 +1,33 @@
 import React, { ReactElement } from "react";
-import Stat from "./common/Stat";
 import { thousandSeparate } from "../utils/thousandSeparate";
-import { ArrowUpOutline, ArrowDownOutline } from "heroicons-react";
 import classNames from "classnames";
+import { Stats as StatsType } from "types";
 
 interface Props {
   className?: string;
+  stats: StatsType;
 }
 
-export default function Stats({ className }: Props): ReactElement {
+export default function Stats({ className, stats }: Props): ReactElement {
+  const { balance, totalExpenses, totalSavings } = stats;
   return (
-    <div
-      className={classNames(
-        "flex justify-between rounded p-4 bg-white",
-        className
-      )}
-    >
-      <Stat
-        label="Savings"
-        value={`${thousandSeparate(12400)} NOK`}
-        icon={ArrowUpOutline}
-        iconStyle="positive"
-      />
-      <Stat
-        label="Expenses"
-        value={`${thousandSeparate(14612)} NOK`}
-        icon={ArrowDownOutline}
-        iconStyle="negative"
-      />
+    <div className={classNames("py-4", className)}>
+      <div className="flex flex-col items-center mb-2">
+        <span className="text-xl font-bold">Balance</span>
+        <span className="text-primary text-xl">
+          {thousandSeparate(balance)} NOK
+        </span>
+      </div>
+      <div className="flex justify-around">
+        <div className="flex flex-col items-center">
+          <span className="font-bold">Savings</span>
+          <span>{thousandSeparate(totalSavings)} NOK</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="font-bold">Expenses</span>
+          <span>{thousandSeparate(totalExpenses)} NOK</span>
+        </div>
+      </div>
     </div>
   );
 }

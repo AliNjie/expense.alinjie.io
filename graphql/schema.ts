@@ -22,12 +22,15 @@ export const resolvers = {
 export const typeDefs = gql`
   type ExpenseMonth {
     _id: String!
-    date: String!
+    year: Int!
+    month: Int!
+    income: Int!
   }
 
   enum ExpenseCategory {
     FIXED
     VARIABLE
+    SAVINGS
   }
 
   type Expense {
@@ -51,7 +54,7 @@ export const typeDefs = gql`
       expenseMonthId: ID!
       category: ExpenseCategory!
     ): Expense!
-    createExpenseMonth(date: String!): ExpenseMonth!
+    createExpenseMonth(month: Int!, year: Int!, income: Int!): ExpenseMonth!
     deleteExpense(expenseId: ID!): Expense!
     deleteExpenseMonth(expenseMonthId: ID!): ExpenseMonth!
   }

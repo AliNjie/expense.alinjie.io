@@ -1,27 +1,78 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Layout from "../components/common/Layout";
-import { ChevronDownOutline, PlusOutline } from "heroicons-react";
-import Stats from "../components/Stats";
-import ExpenseTable from "../components/ExpenseTable";
+import Stats from "components/Stats";
+import { useQuery, gql } from "@apollo/client";
+import { ExpenseCategory } from "types";
+import { calculateStats } from "utils/calculateState";
+import ExpenseTable from "components/ExpenseTable";
+import Modal from "components/common/Modal";
+import ExpenseModal from "components/ExpenseModal";
+
+const EXPENSES = gql`
+  query {
+    expenses {
+      title
+      amount
+      category
+      payed
+      expenseMonth {
+        income
+      }
+    }
+  }
+`;
+
+type QueryResult = {
+  expenses: {
+    title: string;
+    amount: number;
+    category: ExpenseCategory;
+    payed: boolean;
+    expenseMonth: {
+      income: number;
+    };
+  }[];
+};
 
 export default function Home() {
+  const { data, error, loading } = useQuery<QueryResult>(EXPENSES);
+
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+
+  if (loading) {
+    return <span>Loading...</span>;
+  }
+
   return (
     <Layout>
-      <div className="w-full flex justify-between items-center mb-6">
-        <div className="inline relative">
-          <select className="h-10 shadow rounded appearance-none hover:border-gray-700 cursor-pointer text-gray-600 pl-4 pr-6">
-            <option value="Test">January 2020</option>
-            <option value="Test">Febuary 2020</option>
-            <option value="Test">March 2020</option>
-          </select>
-          <ChevronDownOutline className="absolute w-4 text-gray-700 right-0 inset-y-0 my-auto mr-2" />
-        </div>
-        <button className="button">New month</button>
-      </div>
-      <h2 className="font-bold mb-2 text-gray-500">Monthly overview</h2>
-      <Stats className="mb-6" />
-      <h2 className="font-bold mb-2 text-gray-500">Expenses</h2>
-      <ExpenseTable />
+      {data.expenses.length === 0 ? (
+        <p>There are no expenses to show</p>
+      ) : (
+        <React.Fragment>
+          <div className="bg-gray-100">
+            <Stats
+              stats={calculateStats(
+                data.expenses,
+                data.expenses[0]?.expenseMonth.income ?? 0
+              )}
+            />
+          </div>
+          <button className="button bg-primary text-white my-4">
+            New expense
+          </button>
+          <ExpenseTable
+            data={data.expenses.map(({ amount, category, title, payed }) => ({
+              amount,
+              category,
+              title,
+              payed,
+            }))}
+          />
+          <ExpenseModal />
+        </React.Fragment>
+      )}
     </Layout>
   );
 }

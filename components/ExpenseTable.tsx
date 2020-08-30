@@ -1,41 +1,43 @@
 import React, { ReactElement } from "react";
-import { PencilOutline } from "heroicons-react";
+import { ExpenseCategory } from "types";
+import classNames from "classnames";
 
-interface Props {}
+type TableData = {
+  title: string;
+  category: ExpenseCategory;
+  amount: number;
+  payed: boolean;
+};
 
-export default function ExpenseTable({}: Props): ReactElement {
+interface Props {
+  data: TableData[];
+}
+
+export default function ExpenseTable({ data }: Props): ReactElement {
   return (
-    <div>
-      <button className="button mb-4 bg-teal-500 text-white">
-        New expense
-      </button>
-      <table className="w-full bg-white rounded border-separate p-4">
-        <thead>
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="border-b">
-            <td>
-              <span className="font-bold">Mortage</span>
-              <span className="block text-gray-500">Fixed</span>
+    <table className="w-full grid gap-y-2">
+      <tbody>
+        {data.map((item, index) => (
+          <tr
+            key={index}
+            className="bg-gray-100 rounded p-3 flex justify-between items-center"
+          >
+            <td className="flex flex-col">
+              <span className="font-bold">{item.title}</span>
+              <span className="text-gray-500">{item.category}</span>
             </td>
-            <td>12.490 NOK</td>
-            <td>
-              <div className="text-green-400 bg-green-200 text-center rounded-full">
-                Payed
-              </div>
-            </td>
-            <td>
-              <PencilOutline />
+            <td
+              className={classNames({
+                "text-green-400": item.category === ExpenseCategory.SAVINGS,
+                "text-red-400": item.category !== ExpenseCategory.SAVINGS,
+              })}
+            >
+              {item.category === ExpenseCategory.SAVINGS ? "+" : "-"}
+              {item.amount} NOK
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }

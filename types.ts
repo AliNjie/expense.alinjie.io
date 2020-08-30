@@ -1,6 +1,7 @@
 export enum ExpenseCategory {
   FIXED = "FIXED",
   VARIABLE = "VARIABLE",
+  SAVINGS = "SAVINGS",
 }
 
 export type ExpenseMonth = {
@@ -13,4 +14,10 @@ export type Expense = {
   payed: boolean;
   category: ExpenseCategory;
   expenseMonth: ExpenseMonth;
+};
+
+export type Stats = {
+  balance: number;
+  totalSavings: number;
+  totalExpenses: number;
 };
