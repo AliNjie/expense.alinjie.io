@@ -4,7 +4,7 @@ import { signIn, useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const [session] = useSession();
+  const [session, loading] = useSession();
   const router = useRouter();
 
   if (session && typeof window !== "undefined") {
@@ -20,7 +20,7 @@ export default function Home() {
         onClick={() => signIn("github")}
       >
         <img src="/img/github-logo.svg" className="h-6 inline mr-2" />
-        Sign in with Github
+        {loading ? "Signing in..." : "Sign in with Github"}
       </button>
     </Layout>
   );
