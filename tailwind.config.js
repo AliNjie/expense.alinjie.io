@@ -10,7 +10,10 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    cursor: ["disabled"],
+    backgroundColor: ["disabled"],
+  },
   plugins: [],
   future: {
     removeDeprecatedGapUtilities: true,
