@@ -5,7 +5,7 @@ import { CalendarOutline } from "heroicons-react";
 import { gql, useQuery } from "@apollo/client";
 import { ExpenseMonths } from "./__generated__/ExpenseMonths";
 import moment from "moment";
-import { dateFormat } from "consts";
+import { useRouter } from "next/router";
 
 const EXPENSE_MONTHS = gql`
   query ExpenseMonths {
@@ -18,9 +18,9 @@ const EXPENSE_MONTHS = gql`
 `;
 
 export default function MonthSelection(): ReactElement {
-  const [selectedMonth, setSelectedMonth] = useState<string>(null);
-
+  const [selectedMonth, setSelectedMonth] = useState<string>("");
   const { data, error, loading } = useQuery<ExpenseMonths>(EXPENSE_MONTHS);
+  const router = useRouter();
 
   if (error) {
     return <p>Error: {error.message}</p>;
@@ -39,7 +39,7 @@ export default function MonthSelection(): ReactElement {
   }));
 
   return (
-    <Layout className="flex flex-col justify-center items-center text-center">
+    <Layout className="flex flex-col justify-center items-center text-center relative">
       <h1 className="font-extrabold text-4xl">Expense months</h1>
       <p>Select an expense month from the dropdown below.</p>
       {expenseMonthOptions.length === 0 ? (
@@ -57,7 +57,8 @@ export default function MonthSelection(): ReactElement {
         {expenseMonthOptions.length >= 1 && (
           <button
             disabled={!selectedMonth}
-            className="button mr-2 bg-gray-900 text-white"
+            className="button mr-2 bg-gray-900 text-white disabled:bg-gray-600 disabled:cursor-not-allowed"
+            onClick={() => router.push(`/expenses/${selectedMonth}`)}
           >
             Select month
           </button>
