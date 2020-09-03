@@ -34,13 +34,16 @@ export default function Select({
         <LeftIconComponent className="absolute h-5 top-0 bottom-0 left-0 my-auto ml-1" />
       )}
       <select
+        {...props}
         className={classNames(
           leftIcon ? "pl-8" : "pl-2",
           "border appearance-none pr-8 rounded py-1"
         )}
         onChange={onChange}
-        {...props}
       >
+        <option value="" disabled>
+          Select month
+        </option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
