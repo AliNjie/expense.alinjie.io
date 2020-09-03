@@ -16,19 +16,22 @@ export default function Layout({
   isProtected = true,
   ...props
 }: Props): ReactElement {
-  const [session] = useSession();
+  const [session, loading] = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (isProtected && !session) {
+    if (isProtected && !loading && !session) {
       router.push("/");
     }
-  }, [session, isProtected]);
+  }, [session, loading, isProtected]);
 
   return (
     <div className="flex flex-col h-full">
       <Header />
-      <main className={classNames("p-4 flex-1", className)} {...props}>
+      <main
+        className={classNames("container p-3 mx-auto flex-1", className)}
+        {...props}
+      >
         {children}
       </main>
     </div>
