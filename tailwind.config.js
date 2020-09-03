@@ -6,7 +6,7 @@ module.exports = {
         primary: "#D53F8C",
       },
       fontFamily: {
-        rubik: ["Rubik", "sans serif"],
+        rubik: ["Inter", "sans serif"],
       },
     },
   },

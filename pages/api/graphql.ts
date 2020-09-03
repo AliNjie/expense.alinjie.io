@@ -2,11 +2,7 @@ import { ApolloServer } from "apollo-server-micro";
 import mongoose from "mongoose";
 import { resolvers, typeDefs } from "graphql/schema";
 
-const apolloServer = new ApolloServer({
-  resolvers,
-  typeDefs,
-});
-
+// Database setup
 const connectiongString = process.env.CONNECTION_STRING;
 
 if (!connectiongString) {
@@ -29,6 +25,14 @@ mongoose.connect(
     console.log("Successfully connected to Mongodb.");
   }
 );
+
+// Authentication
+
+// Apollo server setup
+const apolloServer = new ApolloServer({
+  resolvers,
+  typeDefs,
+});
 
 export const config = {
   api: {

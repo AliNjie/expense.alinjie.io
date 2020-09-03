@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { Expense as ExpenseType, ExpenseCategory } from "types";
+import { Expense as ExpenseType } from "types";
 
 type ExpenseModel = ExpenseType & Document;
 
@@ -15,11 +15,6 @@ const schema = new Schema({
   payed: {
     type: Boolean,
     required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-    enum: Object.values(ExpenseCategory),
   },
   expenseMonth: {
     type: Schema.Types.ObjectId,

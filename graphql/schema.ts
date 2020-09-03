@@ -24,13 +24,6 @@ export const typeDefs = gql`
     _id: String!
     year: Int!
     month: Int!
-    income: Int!
-  }
-
-  enum ExpenseCategory {
-    FIXED
-    VARIABLE
-    SAVINGS
   }
 
   type Expense {
@@ -38,8 +31,11 @@ export const typeDefs = gql`
     title: String!
     amount: Float!
     payed: Boolean!
-    category: ExpenseCategory!
     expenseMonth: ExpenseMonth!
+  }
+
+  type Income {
+    amount: Float!
   }
 
   type Query {
@@ -48,13 +44,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    createExpense(
-      title: String!
-      amount: Float!
-      expenseMonthId: ID!
-      category: ExpenseCategory!
-    ): Expense!
-    createExpenseMonth(month: Int!, year: Int!, income: Int!): ExpenseMonth!
+    createExpense(title: String!, amount: Float!, expenseMonthId: ID!): Expense!
+    createExpenseMonth(month: Int!, year: Int!): ExpenseMonth!
     deleteExpense(expenseId: ID!): Expense!
     deleteExpenseMonth(expenseMonthId: ID!): ExpenseMonth!
   }

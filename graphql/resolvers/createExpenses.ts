@@ -1,17 +1,15 @@
 import { ExpenseMonth } from "models/expenseMonth";
 import { Expense } from "models/expense";
-import { ExpenseCategory } from "types";
 import { isValidObjectId } from "mongoose";
 
 type Params = {
   title: string;
   amount: number;
-  category: ExpenseCategory;
   expenseMonthId: string;
 };
 
 export async function createExpense(_, params: Params) {
-  const { amount, title, category, expenseMonthId } = params;
+  const { amount, title, expenseMonthId } = params;
 
   if (!isValidObjectId(expenseMonthId)) {
     throw new Error(`Invalid object id '${expenseMonthId}'.`);
@@ -28,7 +26,6 @@ export async function createExpense(_, params: Params) {
     amount,
     expenseMonth,
     payed: false,
-    category: category,
   });
 
   try {

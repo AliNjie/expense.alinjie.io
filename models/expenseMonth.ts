@@ -14,11 +14,6 @@ const schema = new Schema<ExpenseMonthType>({
     min: 0, // JavaScript dates starts at 0 (January) and ends at 11 (December)
     max: 11,
   },
-  income: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
 });
 
 schema.index({ year: 1, month: 1 }, { unique: true });
